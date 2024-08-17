@@ -1,0 +1,22 @@
+
+
+{% extends 'admin/index.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<h3>Book Details</h3>
+
+<div class="card" style="width:20rem;">
+    <img src="{{ book.image.url }}" class="card-img-top" alt="....">
+    <div class="class-body">
+        <p class="card-text">{{ book.title }}</p>
+        <p class="card-text">{{ book.price }}</p>
+    </div>
+</div>
+
+
+
+
+{% endblock%}

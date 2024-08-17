@@ -1,0 +1,70 @@
+{% extends 'user/userindex.html' %}
+{% load static %}
+
+{% block content %}
+<body>
+{% if not cart_items %}
+<p>Cart is empty</p>
+{% else %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">S.no</th>
+      <th scope="col">Book name</th>
+      <th scope="col">Author</th>
+      <th scope="col">Book price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart_items %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ item.book.title }}</td>
+        <td>{{ item.book.author }}</td>
+        <td>{{ item.book.price }}</td>
+        <td> <a href="{% url 'remove_item' item.id %}" class="btn btn-danger">   Remove  </a></td>
+        <td>
+
+             {% if item.quantity > 1 %}
+            <button type="button" class="btn btn-outline" > <a href="{% url 'decrease_quantity' item.id %}">    -   </a></button>
+
+             {% endif %}
+            <button type="button" class="btn btn-outline-dark">{{ item.quantity }}</button>
+
+
+            {% if item.quantity < item.book.quantity %}
+            <button type="button" class="btn btn-outline" ><a href="{% url 'increase_quantity' item.id %}">   +   </a></button>
+
+
+            {% endif %}
+        </td>
+
+
+
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table><br>
+{% endif %}
+
+<form action="{% url 'create_checkout_session' %}" method="post">
+    {% csrf_token %}
+
+<div class="card"  style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title"><u>your cart</u></h5>
+    <h6 class="card-subtitle mb-2 text-body-secondary">Total product : {{ total_items }}</h6>
+     <h6 class="card-subtitle mb-2 text-body-secondary">Total price : {{ total_price }}</h6>
+
+
+
+    <button id="checkout_button" type="submit" class="card-link">Checkout</button>
+
+  </div>
+</div>
+</form>
+
+{% endblock %}
